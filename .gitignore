@@ -1,0 +1,21 @@
+# Secrets / local config
+*.pfx
+*.publishsettings
+.env
+*.env
+azure-credentials.json
+**/parameters/*.local.json
+
+# SSH keys accidentally dropped in-repo
+id_rsa
+id_rsa.pub
+*.pem
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# Bicep build output
+*.json.bak

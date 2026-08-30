@@ -1,0 +1,47 @@
+flowchart TB
+    subgraph MG["Management Group: FalconPorts-Group"]
+        subgraph SUB["Subscription: Pay-As-You-Go"]
+            subgraph PLAT["rg-platform-prod (Corporate IT)"]
+                AAD["Microsoft Entra ID\nUsers / Groups / RBAC"]
+                HUBNET["VNet-hub\nBastion (Developer SKU)"]
+                LAW["Log Analytics Workspace"]
+                KV["Key Vault"]
+                RSV["Recovery Services Vault"]
+            end
+
+            subgraph PORTS["rg-ports-prod"]
+                PORTSNET["VNet-ports"]
+                PORTSVM["VM: ports-web-001 (B1s)"]
+                PORTSAPP["App Service (Free tier)"]
+                PORTSLB["Load Balancer"]
+            end
+
+            subgraph MAR["rg-maritime-prod"]
+                MARNET["VNet-maritime"]
+                MARVMSS["VM Scale Set: vessel-tracking"]
+            end
+
+            subgraph LOG["rg-logistics-prod"]
+                LOGNET["VNet-logistics"]
+                LOGSTOR["Storage Account\nBlob + Files"]
+                ACI["Container Instance / Container App"]
+                ACR["Container Registry"]
+            end
+
+            subgraph FZ["rg-freezones-prod"]
+                FZSTOR["Storage Account\nTenant document archive"]
+            end
+        end
+    end
+
+    HUBNET <-->|VNet Peering| PORTSNET
+    HUBNET <-->|VNet Peering| MARNET
+    HUBNET <-->|VNet Peering| LOGNET
+    AAD -.RBAC scoped per cluster.-> PORTS
+    AAD -.RBAC scoped per cluster.-> MAR
+    AAD -.RBAC scoped per cluster.-> LOG
+    AAD -.RBAC scoped per cluster.-> FZ
+    LAW -.diagnostic settings.-> PORTS
+    LAW -.diagnostic settings.-> MAR
+    LAW -.diagnostic settings.-> LOG
+    RSV -.backup policy.-> PORTSVM
