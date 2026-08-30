@@ -4,7 +4,7 @@ Tick these off as you complete them in the lab. Grouped exactly like the exam's 
 
 ## Manage Azure identities and governance (20–25%)
 
-- [ ] Create users and groups
+- [done ] Create users and groups
 - [ ] Manage user and group properties
 - [ ] Manage licenses in Microsoft Entra ID
 - [ ] Manage external (guest) users
